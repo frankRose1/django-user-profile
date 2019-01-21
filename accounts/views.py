@@ -19,7 +19,7 @@ def sign_in(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(
-                        reverse('home') #TODO go to profile
+                        reverse('home') # TODO go to profile
                     )
                 else:
                     messages.error(
@@ -35,8 +35,25 @@ def sign_in(request):
 
 
 def sign_up(request):
-    return 'sign up'
+    form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1']
+            )
+            login(request, user)
+            messages.success(
+                request,
+                'You\'ve been signed up! We signed you in too.'
+            )
+            return HttpResponseRedirect(reverse('home')) # TODO go to profile
+    return render(request, 'accounts/sign_up.html', {'form': form})
 
 
 def sign_out(request):
-    return 'sign out'
+    logout(request)
+    messages.success(request, 'You\'ve been signed out! Come back soon.')
+    return HttpResponseRedirect(reverse('home'))
