@@ -70,6 +70,7 @@
     </header>
 
     <div class="bounds circle--page">
+        <!--Flash Messages-->
         {% if messages %}
             <ul class="messages centered grid-50">
                 {% for message in messages %}
@@ -78,7 +79,9 @@
                 {% endfor %}
             </ul>
         {% endif %}
-        {% block body %}{% endblock %}
+
+        <!--Page specific content-->
+        {% block content %}{% endblock %}
     </div>
 </body>
 </html>
