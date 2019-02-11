@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from .forms import ProfileForm
 
 # Create your views here.
 
@@ -67,4 +68,14 @@ def profile(request):
 
 @login_required
 def edit_profile(request):
-    return 'hello edit page'
+    form = ProfileForm()
+    if request.method == 'POST':
+        form = ProfileForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                'Your profile has been updated!'
+            )
+            return HttpResponseRedirect(reverse('accounts:profile'))
+    return render(request, 'accounts/edit_profile.html', {'form': form})
