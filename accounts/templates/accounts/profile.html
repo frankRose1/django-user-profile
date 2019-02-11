@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block title %} Your Profile {% endblock %}
+
+{% block content %}
+
+    <h1>Name: {{ profile.first_name }} {{ profile.first_name }}</h1>
+    <p>Date of Birth: {{ profile.date_of_birth }}</p>
+    <p>Email: {{ profile.email }}</p>
+    <p>Bio: {{ profile.bio }}</p>
+
+    <p><a class="button" href="{% url 'accounts:edit_profile' %}">Edit Profile</a></p>
+
+{% endblock %}
