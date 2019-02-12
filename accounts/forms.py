@@ -1,8 +1,10 @@
-from django.forms import ModelForm
+from django import forms
 from .models import Profile
 
 
-class ProfileForm(ModelForm):
+class ProfileForm(forms.ModelForm):
+    confirm_email = forms.EmailField()
+
     class Meta:
         model = Profile
-        fields = ['first_name', 'last_name', 'email', 'bio', 'date_of_birth']
+        fields = ['first_name', 'last_name', 'avatar', 'bio', 'date_of_birth', 'email']

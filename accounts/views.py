@@ -68,9 +68,13 @@ def profile(request):
 
 @login_required
 def edit_profile(request):
-    form = ProfileForm()
+    form = ProfileForm(instance=request.user.profile)
     if request.method == 'POST':
-        form = ProfileForm(data=request.POST)
+        form = ProfileForm(
+            data=request.POST,
+            instance=request.user.profile,
+            files=request.FILES
+        )
         if form.is_valid():
             form.save()
             messages.success(
