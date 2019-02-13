@@ -1,6 +1,7 @@
 from django import forms
 from .models import Profile
 from datetime import datetime
+from django.contrib.auth.models import User
 
 
 class ProfileForm(forms.ModelForm):
@@ -30,3 +31,13 @@ class ProfileForm(forms.ModelForm):
         if email is not None or confirm_email is not None:
             if email != confirm_email:
                 raise forms.ValidationError('Emails must match!')
+
+
+class ResetPasswordForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['password']
+
+    new_password = forms.CharField(widget=forms.PasswordInput())
+    confirm_password = forms.CharField(widget=forms.PasswordInput())

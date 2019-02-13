@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from .forms import ProfileForm
+from .forms import ProfileForm, ResetPasswordForm
 
 # Create your views here.
 
@@ -83,3 +83,11 @@ def edit_profile(request):
             )
             return HttpResponseRedirect(reverse('accounts:profile'))
     return render(request, 'accounts/edit_profile.html', {'form': form})
+
+
+@login_required
+def change_password(request):
+    form = ResetPasswordForm()
+    if request.method == 'POST':
+        pass
+    return render(request, 'accounts/change_password_form.html', {'form': form})
