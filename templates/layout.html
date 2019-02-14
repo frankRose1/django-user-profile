@@ -46,9 +46,10 @@
                     <nav>
                         <ul class="circle--inline">
                             {% if user.is_authenticated %}
+                                <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
+                                <li><a href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>
                                 <li><a href="{% url 'accounts:change_password' %}">Change Password</a></li>
                             {% endif %}
-                            <li><a href="#">nav here?</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -57,11 +58,9 @@
                         <ul class="circle--inline">
                             {% if not user.is_authenticated %}
                                 <li><a href="{% url 'accounts:sign_up' %}">Sign Up</a></li>
-                                <li><a href="{% url 'accounts:sign_in' %}">Sign
-                                    In</a></li>
+                                <li><a href="{% url 'accounts:sign_in' %}">Sign In</a></li>
                             {% else %}
-                                <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
-                            <li><a href="{% url 'accounts:edit_profile' %}">Edit Profile</a></li>
+                                <li><img class="user__avatar" src="{{ user.profile.avatar.url }}" alt="User's Avatar"></li>
                                 <li><a href="{% url 'accounts:sign_out' %}">Sign Out</a></li>
                             {% endif %}
                         </ul>

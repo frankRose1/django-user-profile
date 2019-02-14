@@ -2110,3 +2110,8 @@ form {
     max-width: 650px;
     margin: 0 auto;
 }
+
+.user__avatar{
+  width: 50px;
+  border-radius: 50%;
+}
