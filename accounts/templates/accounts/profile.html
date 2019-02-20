@@ -3,15 +3,23 @@
 {% block title %} Your Profile {% endblock %}
 
 {% block content %}
-
-    <h1>Name: {{ profile.first_name }} {{ profile.last_name }}</h1>
-    {% if profile.avatar %}
-        <img src="{{ profile.avatar.url }}" alt="User's Avatar">
+    {% if profile.is_new %}
+        <div class="create-profile">
+                <h3 class="sub-title">Looks like you havn't yet created your profile! Click the link below to get started.</h3>
+                <p><a class="button" href="{% url 'accounts:edit_profile' %}">Create Profile</a></p>
+        </div>
+    {% else %}
+        <div class="grid-50 profile-column">
+                {% if profile.avatar %}
+                    <img class="main-avatar" src="{{ profile.avatar.url }}" alt="{{ profile.first_name }} {{ profile.last_name }}">
+                {% endif %}
+                <p>@{{ user.username }}</p>
+                <p>{{profile.first_name }} {{profile.last_name }}</p>
+        </div>
+        <p>Date of Birth: {{ profile.date_of_birth }}</p>
+        <p>Email: {{ profile.email }}</p>
+        <p>Bio: {{ profile.bio }}</p>
+        <p><a class="button" href="{% url 'accounts:edit_profile' %}">Edit Profile</a></p>
     {% endif %}
-    <p>Date of Birth: {{ profile.date_of_birth }}</p>
-    <p>Email: {{ profile.email }}</p>
-    <p>Bio: {{ profile.bio }}</p>
-
-    <p><a class="button" href="{% url 'accounts:edit_profile' %}">Edit Profile</a></p>
 
 {% endblock %}

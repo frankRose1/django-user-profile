@@ -2108,10 +2108,62 @@ input[type="email"].circle--input--h6, input[type="number"].circle--input--h6, i
 
 form {
     max-width: 650px;
-    margin: 0 auto;
+    margin: 100px auto;
 }
 
 .user__avatar{
   width: 50px;
   border-radius: 50%;
+}
+
+.page-title, .sub-title {
+  text-align: center;
+}
+
+.new-password-rules {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.create-profile {
+  text-align: center;
+  margin: 100px auto;
+}
+.create-profile p {
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.main-avatar {
+  width: 200px;
+  border-radius: 50%;
+}
+
+.profile-column {
+  text-align: center;
+}
+
+.errorlist {
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #fff;
+  background: #FFE6B2;
+  color: #C5A14E;
+}
+
+.notification {
+  text-align: center;
+  padding: 10px 20px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.success {
+  background: #70DA8B;
+  color: #4DA463;
+}
+.error {
+  background: #FFE6B2;
+  color: #C5A14E;
 }

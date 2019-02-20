@@ -1,7 +1,9 @@
+import re
 from django import forms
 from .models import Profile
 
 PW_NAME_ERROR = 'Password must not include any part of your name.'
+PW_CASING_ERROR = 'Password needs at least one {} letter.'
 
 
 class ProfileForm(forms.ModelForm):
@@ -38,25 +40,45 @@ def validate_pw_length(value):
         raise forms.ValidationError('New password must be at least 10 characters.')
 
 
-def validate_pw_no_username(value, username):
+def no_username(value, username):
     if username.lower() in value.lower():
         raise forms.ValidationError('Password must not include your username.')
 
 
-def validate_pw_no_first_name(value, first_name):
+def no_first_name(value, first_name):
     if first_name.lower() in value.lower():
         raise forms.ValidationError(PW_NAME_ERROR)
 
 
-def validate_pw_no_last_name(value, last_name):
+def no_last_name(value, last_name):
     if last_name.lower() in value.lower():
         raise forms.ValidationError(PW_NAME_ERROR)
 
 
-# New password
-# TODO both uppercase and lowercase letters
-# TODO One or more numerical digits
-# TODO One or more special characers # $ @
+def has_lowercase(value):
+    result = re.search(r'[a-z]', value)
+    if result is None:
+        raise forms.ValidationError(PW_CASING_ERROR.format('lowercase'))
+
+
+def has_uppercase(value):
+    result = re.search(r'[A-Z]', value)
+    if result is None:
+        raise forms.ValidationError(PW_CASING_ERROR.format('uppercase'))
+
+
+def has_numbers(value):
+    result = re.search(r'[\d]', value)
+    if result is None:
+        raise forms.ValidationError('Password needs at least one number.')
+
+
+def has_special_characters(value):
+    result = re.search(r'[@!$#*]', value)
+    if result is None:
+        raise forms.ValidationError('Password must have at least one of the following characters: @ ! $ # *')
+
+
 class ChangePasswordForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
@@ -73,9 +95,13 @@ class ChangePasswordForm(forms.Form):
         first_name = self.user.profile.first_name
         last_name = self.user.profile.last_name
         validate_pw_length(new_pw)
-        validate_pw_no_username(new_pw, username)
-        validate_pw_no_first_name(new_pw, first_name)
-        validate_pw_no_last_name(new_pw, last_name)
+        no_username(new_pw, username)
+        no_first_name(new_pw, first_name)
+        no_last_name(new_pw, last_name)
+        has_lowercase(new_pw)
+        has_uppercase(new_pw)
+        has_numbers(new_pw)
+        has_special_characters(new_pw)
         return new_pw
 
     def clean(self):

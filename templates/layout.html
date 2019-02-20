@@ -6,7 +6,7 @@
     <!-- Basic Page Needs
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta charset="utf-8">
-    <title>{% block title %}Circle{% endblock %}</title>
+    <title>{% block title %}User Profile{% endblock %}</title>
 
     <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -60,7 +60,9 @@
                                 <li><a href="{% url 'accounts:sign_up' %}">Sign Up</a></li>
                                 <li><a href="{% url 'accounts:sign_in' %}">Sign In</a></li>
                             {% else %}
-                                <li><img class="user__avatar" src="{{ user.profile.avatar.url }}" alt="User's Avatar"></li>
+                                {% if user.profile.avatar %}
+                                    <li><img class="user__avatar" src="{{ user.profile.avatar.url }}" alt="User's Avatar"></li>
+                                {% endif %}
                                 <li><a href="{% url 'accounts:sign_out' %}">Sign Out</a></li>
                             {% endif %}
                         </ul>
@@ -75,7 +77,7 @@
         {% if messages %}
             <ul class="messages centered grid-50">
                 {% for message in messages %}
-                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    <li {% if message.tags %} class="notification {{ message.tags }}"{% endif %}>
                         {{ message }}
                     </li>
                 {% endfor %}

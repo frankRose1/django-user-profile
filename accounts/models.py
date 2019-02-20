@@ -11,6 +11,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     email = models.EmailField(max_length=255, blank=True)
+    is_new = models.BooleanField(default=True)
     bio = models.TextField(max_length=1500, help_text='Tell us a bit about yourself.', blank=True)
     date_of_birth = models.DateField(
             null=True,

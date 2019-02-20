@@ -8,7 +8,14 @@ from django.shortcuts import render
 
 from .forms import ProfileForm, ChangePasswordForm
 
-# Create your views here.
+NEW_PASSWORD_RULES = [
+    'Must be at least 8 charcters long',
+    'Must contain both lower and upper case letters',
+    'Must contain at least one number',
+    'Can not contain the user\'s first or last name',
+    'Can not contain the username associated with the account',
+    'Must contain one of the following characters: @ ! $ # *'
+]
 
 
 def sign_in(request):
@@ -76,7 +83,9 @@ def edit_profile(request):
             files=request.FILES
         )
         if form.is_valid():
-            form.save()
+            profile = form.save(commit=False)
+            profile.is_new = False
+            profile.save()
             messages.success(
                 request,
                 'Your profile has been updated!'
@@ -94,6 +103,6 @@ def change_password(request):
         if form.is_valid():
             user.set_password(form.cleaned_data.get('new_password'))
             user.save()
-            messages.success(request, 'Your password was updated successfully.')
+            messages.success(request, 'Your password was updated successfully, please sign in using your new password.')
             return HttpResponseRedirect(reverse('accounts:profile'))
-    return render(request, 'accounts/change_password_form.html', {'form': form})
+    return render(request, 'accounts/change_password_form.html', {'form': form, 'rules': NEW_PASSWORD_RULES})
